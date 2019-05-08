@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MovieManager.Web</name>
+    </assembly>
+    <members>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.GetCategories">
+            <summary>
+            Liefert alle existierenden Kategorien
+            </summary>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.GetCategory(System.Int32)">
+            <summary>
+            Liefert eine spezifische Kategorie
+            </summary>
+            <param name="id">Die Id der Kategorie</param>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+            <response code="400">Die Id konnte nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.GetMoviesByCategory(System.Int32)">
+            <summary>
+            Liefert die Filme zu einer Kateogie
+            </summary>
+            <param name="id">Die Id der Kategorie</param>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+            <response code="400">Die Id konnte nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.AddCategory(MovieManager.Web.DataTransferObjects.CategoryDto)">
+            <summary>
+            Erstellt eine neue Kategorie
+            </summary>
+            <param name="category">Die neue Kategorie</param>
+            <response code="201">Die Kategorie wurde erfolgreich erstellt.</response>
+            <response code="400">Die Daten der neuen Kategorie konnten nicht verarbeitet werden!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.UpdateCategory(System.Int32,System.String)">
+            <summary>
+            Ändert eine bestehende Kategorie
+            </summary>
+            <param name="id">Die Id der Kategorie</param>
+            <param name="categoryName">Der neue Name der Kategorie</param>
+            <response code="204">Die Kategorie wurde erfolgreich aktualisiert.</response>
+            <response code="400">Die übergebenen Daten konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.CategoriesController.DeleteCategory(System.Int32)">
+            <summary>
+            Löscht eine bestehende Kategorie
+            </summary>
+            <param name="id">Die Id der Kategorie</param>
+            <response code="204">Die Kategorie wurde erfolgreich gelöscht.</response>
+            <response code="400">Die Id konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.GetMovies">
+            <summary>
+            Liefert alle existierenden Filme
+            </summary>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.GetMovie(System.Int32)">
+            <summary>
+            Liert einen spezifischen Film
+            </summary>
+            <param name="id">Die Id des Films</param>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+            <response code="400">Die übergebene Id konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.GetCategoryByMovieId(System.Int32)">
+            <summary>
+            Liert die Kategorie zu einem spezifischen Film
+            </summary>
+            <param name="id">Die Id des Films</param>
+            <response code="200">Die Abfrage war erfolgreich.</response>
+            <response code="400">Die übergebene Id konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.AddMovie(MovieManager.Web.DataTransferObjects.MovieDto)">
+            <summary>
+            Erstellt einen neuen Film 
+            </summary>
+            <param name="movie">Die Informationen zum neuen Film</param>
+            <response code="201">Der Film wurde erfolgreich erstellt.</response>
+            <response code="400">Die übergebenen Date konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.UpdateMovie(System.Int32,MovieManager.Web.DataTransferObjects.MovieDto)">
+            <summary>
+            Ändert einen bestehenden Film 
+            </summary>
+            <param name="id">Die Id des zu ändernden Films</param>
+            <param name="movie">Die aktualisierten Informationen zum Film</param>
+            <response code="204">Der Film wurde erfolgreich aktualisiert.</response>
+            <response code="400">Die übergebenen Date konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.ApiControllers.MoviesController.DeleteMovie(System.Int32)">
+            <summary>
+            Löscht einen bestehenden Film
+            </summary>
+            <param name="id">Die Id des Films</param>
+            <response code="204">Der Film wurde erfolgreich gelöscht.</response>
+            <response code="400">Die Id konnten nicht verarbeitet werden!</response>
+            <response code="404">Unbekannte Id!</response>
+        </member>
+        <member name="M:MovieManager.Web.DataTransferObjects.CategoryDto.#ctor">
+            <summary>
+            Konstruktor für die JSON-Serialisierung
+            </summary>
+        </member>
+        <member name="M:MovieManager.Web.DataTransferObjects.MovieDto.#ctor">
+            <summary>
+            Konstruktor für die JSON-Serialisierung
+            </summary>
+        </member>
+        <member name="T:MovieManager.Web.Validation.ClassicMovieMaxDurationAttribute">
+            <summary>
+            Validiert ob Filme bis zu einem gewissen Produktionsjahr
+            nicht länger als eine gewisse Anzahl an Minuten dauern.
+            </summary>
+        </member>
+    </members>
+</doc>
