@@ -70,7 +70,12 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<MovieDto[]> GetMoviesByCategory(int id)
         {
-            throw new NotImplementedException();
+            var moviesByCategory = _unitOfWork.MovieRepository.GetAllByCatId(id);
+            if (moviesByCategory == null)
+            {
+                return NotFound();
+            }
+            return moviesByCategory.Select(m => new MovieDto(m)).ToArray();
         }
 
         /// <summary>
@@ -85,7 +90,7 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<CategoryDto> AddCategory(CategoryDto category)
         {
-            throw new NotImplementedException();
+
         }
 
         /// <summary>
