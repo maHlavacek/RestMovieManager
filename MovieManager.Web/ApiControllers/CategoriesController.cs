@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieManager.Core.Contracts;
+using MovieManager.Core.Entities;
 using MovieManager.Web.DataTransferObjects;
 using System;
 using System.Linq;
@@ -90,7 +91,12 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<CategoryDto> AddCategory(CategoryDto category)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            Category newCategory = new Category();
+            //category.CopyValuesTo(newCategory);
         }
 
         /// <summary>
