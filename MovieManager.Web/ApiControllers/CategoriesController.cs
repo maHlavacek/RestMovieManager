@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieManager.Core.Contracts;
 using MovieManager.Web.DataTransferObjects;
 using System;
+using System.Linq;
 
 namespace MovieManager.Web.ApiControllers
 {
@@ -27,7 +28,9 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<CategoryDto[]> GetCategories()
         {
-            throw new NotImplementedException();
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var categories = _unitOfWork.CategoryRepository.GetAll();
+            return categories.Select(c => new CategoryDto(c)).ToArray();
         }
 
         /// <summary>
@@ -44,7 +47,12 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CategoryDto> GetCategory(int id)
         {
-            throw new NotImplementedException();
+            var category = _unitOfWork.CategoryRepository.GetById(id);
+            if(category == null)
+            {
+                return NotFound();
+            }
+            return new CategoryDto(category);
         }
 
         /// <summary>
