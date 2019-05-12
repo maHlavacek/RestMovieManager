@@ -114,7 +114,18 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateCategory(int id, string categoryName)
         {
-            throw new NotImplementedException();
+            if(!char.IsDigit((char)id))
+            {
+                return BadRequest();
+            }
+            var updateCat = _unitOfWork.CategoryRepository.GetById(id);
+            if(updateCat == null)
+            {
+                return NotFound();
+            }
+            updateCat.CategoryName = categoryName;
+            _unitOfWork.Save();
+            return NoContent();
         }
 
         /// <summary>
