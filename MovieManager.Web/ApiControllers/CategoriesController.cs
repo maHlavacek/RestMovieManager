@@ -142,7 +142,17 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+            if(!char.IsDigit((char)id))
+            {
+                return BadRequest();
+            }
+            var deleteCat = _unitOfWork.CategoryRepository.GetById(id);
+            if(deleteCat == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.CategoryRepository.Delete(deleteCat);
+            return NoContent();
         }
     }
 }
