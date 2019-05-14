@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieManager.Core.Contracts;
+using MovieManager.Core.Entities;
 using MovieManager.Web.DataTransferObjects;
 using System;
+using System.Linq;
 
 namespace MovieManager.Web.ApiControllers
 {
@@ -26,7 +28,8 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<MovieDto[]> GetMovies()
         {
-            throw new NotImplementedException();
+            var movies = _unitOfWork.MovieRepository.GetAll();
+            return movies.Select(m => new MovieDto(m)).ToArray();
         }
 
 
@@ -44,7 +47,12 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<MovieDto> GetMovie(int id)
         {
-            throw new NotImplementedException();
+            var movie = _unitOfWork.MovieRepository.GetById(id);
+            if(movie == null)
+            {
+                return NotFound();
+            }
+            return new MovieDto(movie);
         }
 
         /// <summary>
@@ -62,7 +70,12 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CategoryDto> GetCategoryByMovieId(int id)
         {
-            throw new NotImplementedException();
+            var category = _unitOfWork.MovieRepository.GetById(id);
+            if(category == null)
+            {
+                return NotFound();
+            }
+            return new CategoryDto(category.Id,category.Title);
         }
 
         /// <summary>
@@ -78,7 +91,15 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<MovieDto> AddMovie(MovieDto movie)
         {
-            throw new NotImplementedException();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Movie newMovie = new Movie();
+            movie.CopyValuesTo(newMovie);
+            _unitOfWork.MovieRepository.Add(newMovie);
+            _unitOfWork.Save();
+            return CreatedAtAction(nameof(GetMovie), new { Title = movie.Title }, new MovieDto(newMovie));
         }
 
         /// <summary>
@@ -96,7 +117,25 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateMovie(int id, MovieDto movie)
         {
-            throw new NotImplementedException();
+            if (movie == null)
+            {
+                return BadRequest($"{nameof(movie)} is null");
+            }
+            if (movie.Id == null || movie.CategoryId == null ||string.IsNullOrEmpty(movie.Title) || movie.Duration == 0)
+            {
+                return BadRequest();
+            }
+            var updateMovie = _unitOfWork.MovieRepository.GetById(id);
+            if(updateMovie == null)
+            {
+                return NotFound();
+            }
+            //updateMovie.CategoryId = movie.CategoryId;
+            updateMovie.Duration = movie.Duration;
+            updateMovie.Title = movie.Title;
+            updateMovie.Year = movie.Year;
+            _unitOfWork.Save();
+            return NoContent();
         }
 
 
@@ -114,7 +153,13 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteMovie(int id)
         {
-            throw new NotImplementedException();
+            var movie = _unitOfWork.MovieRepository.GetById(id);
+            if(movie == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.MovieRepository.Delete(movie);
+            return NoContent();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using MovieManager.Core.Entities;
+﻿using System;
+using MovieManager.Core.Entities;
 
 namespace MovieManager.Web.DataTransferObjects
 {
@@ -36,5 +37,12 @@ namespace MovieManager.Web.DataTransferObjects
         {
         }
 
+        internal void CopyValuesTo(Movie newMovie)
+        {
+            newMovie.Title = Title;
+            newMovie.Year = Year;
+            newMovie.Duration = Duration;
+            //newMovie.CategoryId = CategoryId;
+        }
     }
 }

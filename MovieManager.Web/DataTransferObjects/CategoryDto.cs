@@ -29,5 +29,10 @@ namespace MovieManager.Web.DataTransferObjects
             Id = category.Id;
             CategoryName = category.CategoryName;
         }
+
+        internal void CopyValuesTo(Category newCategory)
+        {
+            newCategory.CategoryName = CategoryName;
+        }
     }
 }
