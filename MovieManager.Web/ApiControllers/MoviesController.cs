@@ -130,7 +130,9 @@ namespace MovieManager.Web.ApiControllers
             {
                 return NotFound();
             }
-            updateMovie.Category = _unitOfWork.CategoryRepository.GetById(movie.CategoryId ?? 0);
+            updateMovie.Category = _unitOfWork
+                                    .CategoryRepository
+                                    .GetById(movie.CategoryId ?? 0);
             updateMovie.Duration = movie.Duration;
             updateMovie.Title = movie.Title;
             updateMovie.Year = movie.Year;

@@ -30,7 +30,10 @@ namespace MovieManager.Web.ApiControllers
         public ActionResult<CategoryDto[]> GetCategories()
         {
             var categories = _unitOfWork.CategoryRepository.GetAll();
-            return categories.Select(c => new CategoryDto(c)).ToArray();
+
+            return categories
+                   .Select(c => new CategoryDto(c))
+                   .ToArray();
         }
 
         /// <summary>
@@ -47,11 +50,8 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CategoryDto> GetCategory(int id)
         {
-            //if(int.TryParse(id))
-            //{
-            //    return BadRequest();
-            //}
             var category = _unitOfWork.CategoryRepository.GetById(id);
+
             if(category == null)
             {
                 return NotFound();
@@ -75,11 +75,15 @@ namespace MovieManager.Web.ApiControllers
         public ActionResult<MovieDto[]> GetMoviesByCategory(int id)
         {
             var moviesByCategory = _unitOfWork.MovieRepository.GetAllByCatId(id);
+
             if (moviesByCategory.Count() == 0)
             {
                 return NotFound();
             }
-            return moviesByCategory.Select(m => new MovieDto(m)).ToArray();
+
+            return moviesByCategory
+                   .Select(m => new MovieDto(m))
+                   .ToArray();
         }
 
         /// <summary>
@@ -102,7 +106,10 @@ namespace MovieManager.Web.ApiControllers
             category.CopyValuesTo(newCategory);
             _unitOfWork.CategoryRepository.Insert(newCategory);
             _unitOfWork.Save();
-            return CreatedAtAction(nameof(GetCategory),new { id = newCategory.Id}, new CategoryDto(newCategory));
+
+            return CreatedAtAction(nameof(GetCategory),
+                                    new { id = newCategory.Id}, 
+                                    new CategoryDto(newCategory));
         }
 
         /// <summary>
@@ -125,12 +132,15 @@ namespace MovieManager.Web.ApiControllers
                 return BadRequest($"{nameof(categoryName)} is null or empty");
             }
             var updateCat = _unitOfWork.CategoryRepository.GetById(id);
+
             if(updateCat == null)
             {
                 return NotFound();
             }
+
             updateCat.CategoryName = categoryName;
             _unitOfWork.Save();
+
             return NoContent();
         }
 
@@ -148,16 +158,15 @@ namespace MovieManager.Web.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteCategory(int id)
         {
-            //if(!char.IsDigit((char)id))
-            //{
-            //    return BadRequest();
-            //}
             var deleteCat = _unitOfWork.CategoryRepository.GetById(id);
+
             if(deleteCat == null)
             {
                 return NotFound();
             }
+
             _unitOfWork.CategoryRepository.Delete(deleteCat);
+
             return NoContent();
         }
     }
