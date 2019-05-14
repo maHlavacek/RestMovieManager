@@ -121,19 +121,20 @@ namespace MovieManager.Web.ApiControllers
             {
                 return BadRequest($"{nameof(movie)} is null");
             }
-            if (movie.Id == null || movie.CategoryId == null ||string.IsNullOrEmpty(movie.Title) || movie.Duration == 0)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
             var updateMovie = _unitOfWork.MovieRepository.GetById(id);
             if(updateMovie == null)
             {
                 return NotFound();
             }
-            //updateMovie.CategoryId = movie.CategoryId;
+            updateMovie.Category = _unitOfWork.CategoryRepository.GetById(movie.CategoryId ?? 0);
             updateMovie.Duration = movie.Duration;
             updateMovie.Title = movie.Title;
             updateMovie.Year = movie.Year;
+
             _unitOfWork.Save();
             return NoContent();
         }
@@ -159,6 +160,7 @@ namespace MovieManager.Web.ApiControllers
                 return NotFound();
             }
             _unitOfWork.MovieRepository.Delete(movie);
+            _unitOfWork.Save();
             return NoContent();
         }
 
